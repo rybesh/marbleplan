@@ -60,8 +60,8 @@ window.onload = function() {
   scene.add(spot2);
   
   // Add axes
-	var axes = buildAxes( 1000 );
-	scene.add( axes );
+	//var axes = buildAxes( 1000 );
+	//scene.add( axes );
 
 	// We need a camera to look at the scene!
 	camera = new THREE.PerspectiveCamera(
