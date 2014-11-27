@@ -1,26 +1,26 @@
 /*global THREE Detector requestAnimationFrame */
 
 window.onload = function() {
-	var renderer,
-		  scene,
-		  camera,
-		  controls,
-		  material;
-	
-	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+  var renderer,
+      scene,
+      camera,
+      controls,
+      material;
+  
+  if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
 
   document.body.appendChild( renderer.domElement );
-	renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.setClearColor( 0xFCF4DC, 1 );
   renderer.shadowMapEnabled = true;
   renderer.shadowMapSoft = true;
-	
-	scene = new THREE.Scene();
+  
+  scene = new THREE.Scene();
 
-	// Add the fragment to the scene
-	material = new THREE.MeshPhongMaterial({ color: 0xFFFFFF });
+  // Add the fragment to the scene
+  material = new THREE.MeshPhongMaterial({ color: 0xFFFFFF });
   var loader = new THREE.PLYLoader();
   loader.addEventListener('load', function(event) {
 
@@ -37,7 +37,7 @@ window.onload = function() {
   loader.load('./models/010g_128000.ply');
 
   // Lighting
-	scene.add( new THREE.AmbientLight( 0xffffff ) );
+  scene.add( new THREE.AmbientLight( 0xffffff ) );
   
   var spot1 = new THREE.SpotLight( 0xFFFFFF, 1.5 );
   spot1.position.set( 0, 0, 55 );
@@ -60,71 +60,71 @@ window.onload = function() {
   scene.add(spot2);
   
   // Add axes
-	//var axes = buildAxes( 1000 );
-	//scene.add( axes );
+  //var axes = buildAxes( 1000 );
+  //scene.add( axes );
 
-	// We need a camera to look at the scene!
-	camera = new THREE.PerspectiveCamera(
+  // We need a camera to look at the scene!
+  camera = new THREE.PerspectiveCamera(
     45, window.innerWidth / window.innerHeight, 1, 10000 );
-	camera.position.set( 0, 0, -90 );
-	camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
-	
-	// And some sort of controls to move around
-	// We'll use one of THREE's provided control classes for simplicity
-	controls = new THREE.TrackballControls( camera );
-	controls.rotateSpeed = 1.0;
-	controls.zoomSpeed = 0.1;
-	controls.panSpeed = 0.8;
+  camera.position.set( 0, 0, -90 );
+  camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
+  
+  // And some sort of controls to move around
+  // We'll use one of THREE's provided control classes for simplicity
+  controls = new THREE.TrackballControls( camera );
+  controls.rotateSpeed = 1.0;
+  controls.zoomSpeed = 0.1;
+  controls.panSpeed = 0.8;
 
-	controls.noZoom = false;
-	controls.noPan = false;
+  controls.noZoom = false;
+  controls.noPan = false;
 
-	controls.staticMoving = true;
-	controls.dynamicDampingFactor = 0.3;
+  controls.staticMoving = true;
+  controls.dynamicDampingFactor = 0.3;
 
 
-	// and go!
-	animate();
+  // and go!
+  animate();
 
-	function animate() {
-		requestAnimationFrame( animate );
-		controls.update();
-		renderer.render( scene, camera );
-	}
+  function animate() {
+    requestAnimationFrame( animate );
+    controls.update();
+    renderer.render( scene, camera );
+  }
 
-	function buildAxes( length ) {
-		var axes = new THREE.Object3D();
+  function buildAxes( length ) {
+    var axes = new THREE.Object3D();
 
-		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( length, 0, 0 ), 0xFF0000, false ) ); // +X
-		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( -length, 0, 0 ), 0xFF0000, true) ); // -X
-		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, length, 0 ), 0x00FF00, false ) ); // +Y
-		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, -length, 0 ), 0x00FF00, true ) ); // -Y
-		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, length ), 0x0000FF, false ) ); // +Z
-		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, -length ), 0x0000FF, true ) ); // -Z
+    axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( length, 0, 0 ), 0xFF0000, false ) ); // +X
+    axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( -length, 0, 0 ), 0xFF0000, true) ); // -X
+    axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, length, 0 ), 0x00FF00, false ) ); // +Y
+    axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, -length, 0 ), 0x00FF00, true ) ); // -Y
+    axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, length ), 0x0000FF, false ) ); // +Z
+    axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, -length ), 0x0000FF, true ) ); // -Z
 
-		return axes;
+    return axes;
 
-	}
+  }
 
-	function buildAxis( src, dst, colorHex, dashed ) {
-		var geom = new THREE.Geometry(),
-			  mat; 
+  function buildAxis( src, dst, colorHex, dashed ) {
+    var geom = new THREE.Geometry(),
+        mat; 
 
-		if(dashed) {
-			mat = new THREE.LineDashedMaterial(
+    if(dashed) {
+      mat = new THREE.LineDashedMaterial(
         { linewidth: 3, color: colorHex, dashSize: 3, gapSize: 3 });
-		} else {
-			mat = new THREE.LineBasicMaterial(
+    } else {
+      mat = new THREE.LineBasicMaterial(
         { linewidth: 3, color: colorHex });
-		}
+    }
 
-		geom.vertices.push( src.clone() );
-		geom.vertices.push( dst.clone() );
-		geom.computeLineDistances(); 
+    geom.vertices.push( src.clone() );
+    geom.vertices.push( dst.clone() );
+    geom.computeLineDistances(); 
 
-		var axis = new THREE.Line( geom, mat, THREE.LinePieces );
+    var axis = new THREE.Line( geom, mat, THREE.LinePieces );
 
-		return axis;
+    return axis;
 
-	}
+  }
 }
